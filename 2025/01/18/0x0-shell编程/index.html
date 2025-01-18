@@ -1,0 +1,845 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/fluid.png">
+  <link rel="icon" href="/img/fluid.png">
+  
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="DuanXian">
+  <meta name="keywords" content="">
+  
+    <meta name="description" content="简介 Shell是一种脚本语言，那么，就必须有解释器来执行这些脚本。  Unix&#x2F;Linux上常见的Shell脚本解释器有bash、sh、csh、ksh等，习惯上把它们称作一种Shell。我们常说有多少种Shell，其实说的是Shell脚本解释器。 Hello World打开文本编辑器，新建一个文件test.sh，扩展名为.sh（sh代表shell）。 输入一些代码： 12#!&#x2F;bin&#x2F;">
+<meta property="og:type" content="article">
+<meta property="og:title" content="0x0  shell编程">
+<meta property="og:url" content="https://duanxian0x0.github.io/2025/01/18/0x0-shell%E7%BC%96%E7%A8%8B/index.html">
+<meta property="og:site_name" content="DuanXian Blog">
+<meta property="og:description" content="简介 Shell是一种脚本语言，那么，就必须有解释器来执行这些脚本。  Unix&#x2F;Linux上常见的Shell脚本解释器有bash、sh、csh、ksh等，习惯上把它们称作一种Shell。我们常说有多少种Shell，其实说的是Shell脚本解释器。 Hello World打开文本编辑器，新建一个文件test.sh，扩展名为.sh（sh代表shell）。 输入一些代码： 12#!&#x2F;bin&#x2F;">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2025-01-18T06:36:06.000Z">
+<meta property="article:modified_time" content="2025-01-18T06:56:53.694Z">
+<meta property="article:author" content="DuanXian">
+<meta property="article:tag" content="shell  linux">
+<meta name="twitter:card" content="summary_large_image">
+  
+  
+  
+  <title>0x0  shell编程 - DuanXian Blog</title>
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/c/font_1749284_5i9bdhy70f8.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/c/font_1736178_k526ubmyhba.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/css/highlight-dark.css" />
+  
+
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"duanxian0x0.github.io","root":"/","version":"1.9.8","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"follow_dnt":true,"baidu":null,"google":{"measurement_id":null},"tencent":{"sid":null,"cid":null},"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false},"umami":{"src":null,"website_id":null,"domains":null,"start_time":"2024-01-01T00:00:00.000Z","token":null,"api_server":null}},"search_path":"/local-search.xml","include_content_in_search":true};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+  
+
+
+  
+<meta name="generator" content="Hexo 7.3.0"></head>
+
+
+<body>
+  
+
+  <header>
+    
+
+<div class="header-inner" style="height: 70vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>DuanXian的博客</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/" target="_self">
+                <i class="iconfont icon-home-fill"></i>
+                <span>首页</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/" target="_self">
+                <i class="iconfont icon-archive-fill"></i>
+                <span>归档</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/" target="_self">
+                <i class="iconfont icon-category-fill"></i>
+                <span>分类</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/" target="_self">
+                <i class="iconfont icon-tags-fill"></i>
+                <span>标签</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/" target="_self">
+                <i class="iconfont icon-user-fill"></i>
+                <span>关于</span>
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              <i class="iconfont icon-search"></i>
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">
+              <i class="iconfont icon-dark" id="color-toggle-icon"></i>
+            </a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('/img/default.png') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle" data-typed-text="0x0  shell编程"></span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2025-01-18 14:36" pubdate>
+          2025年1月18日 下午
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          2.6k 字
+        
+      </span>
+    
+
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-clock-fill"></i>
+        
+        
+        
+          22 分钟
+        
+      </span>
+    
+
+    
+    
+  </div>
+
+
+        
+      </div>
+
+      
+    </div>
+  </div>
+</div>
+
+</div>
+
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <h1 id="seo-header">0x0  shell编程</h1>
+            
+            
+              <div class="markdown-body">
+                
+                <h2 id="简介"><a href="#简介" class="headerlink" title="简介"></a>简介</h2><blockquote>
+<p>Shell是一种脚本语言，那么，就必须有解释器来执行这些脚本。</p>
+</blockquote>
+<p>Unix&#x2F;Linux上常见的Shell脚本解释器有bash、sh、csh、ksh等，习惯上把它们称作一种Shell。我们常说有多少种Shell，其实说的是Shell脚本解释器。</p>
+<h2 id="Hello-World"><a href="#Hello-World" class="headerlink" title="Hello World"></a>Hello World</h2><p>打开文本编辑器，新建一个文件<code>test.sh</code>，扩展名为<code>.sh</code>（sh代表shell）。</p>
+<p>输入一些代码：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs bash"><span class="hljs-meta">#!/bin/bash</span><br><span class="hljs-built_in">echo</span> <span class="hljs-string">&quot;Hello World !&quot;</span><br></code></pre></td></tr></table></figure>
+
+<p>在命令行运行：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs bash"><span class="hljs-built_in">chmod</span> +x test.sh<br>./test.sh<br></code></pre></td></tr></table></figure>
+
+<p>运行结果：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">Hello World !<br></code></pre></td></tr></table></figure>
+
+<p><code>#!</code> 是一个约定的标记，它告诉系统这个脚本需要什么解释器来执行，即<strong>使用哪一种Shell</strong>。<code>echo</code>命令用于向窗口输出文本。</p>
+<h2 id="注释"><a href="#注释" class="headerlink" title="注释"></a>注释</h2><p>以<code>#</code>开头的行就是注释，会被解释器忽略。sh里没有多行注释，只能每一行加一个#号。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs bash"><span class="hljs-comment"># --------</span><br><span class="hljs-comment"># 这是注释块</span><br><span class="hljs-comment"># --------</span><br></code></pre></td></tr></table></figure>
+
+<h2 id="打印输出"><a href="#打印输出" class="headerlink" title="打印输出"></a>打印输出</h2><p><strong>echo</strong>： 是Shell的一个内部指令，用于在屏幕上打印出指定的字符串。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs bash"><span class="hljs-built_in">echo</span> arg <br><span class="hljs-built_in">echo</span> -e arg <span class="hljs-comment">#执行arg里的转义字符。echo加了-e默认会换行</span><br><span class="hljs-built_in">echo</span> arg &gt; myfile <span class="hljs-comment">#显示结果重定向至文件，会生成myfile文件</span><br></code></pre></td></tr></table></figure>
+<p>注意，echo后单引号和双引号作用是不同的。单引号不能转义里面的字符。双引号可有可无，单引号主要用在原样输出中。</p>
+<p><strong>printf</strong>：格式化输出语句。<br><code>printf</code> 命令用于格式化输出， 是<code>echo</code>命令的增强版。它是C语言<code>printf()</code>库函数的一个有限的变形，并且在语法上有些不同。</p>
+<p>如同 <code>echo</code> 命令，<code>printf</code> 命令也可以输出简单的字符串:</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash"><span class="hljs-built_in">printf</span> <span class="hljs-string">&quot;hello\n&quot;</span><br></code></pre></td></tr></table></figure>
+<p><code>printf</code> 不像 <code>echo</code> 那样会自动换行，必须显式添加换行符(\n)。</p>
+<p>注意：<code>printf</code> 由 POSIX 标准所定义，移植性要比 <code>echo</code> 好。</p>
+<p>printf 命令的语法：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs bash"><span class="hljs-built_in">printf</span>  format-string  [arguments...]<br><br><span class="hljs-comment">#format-string 为格式控制字符串，arguments 为参数列表。功能和用法与c语言的 printf 命令类似。</span><br></code></pre></td></tr></table></figure>
+
+<p>这里仅说明与C语言printf()函数的不同：</p>
+<ul>
+<li>printf 命令不用加括号</li>
+<li>format-string 可以没有引号，但最好加上，单引号双引号均可。</li>
+<li>参数比格式控制符(%)多时，格式控制符可以重用，可以将所有参数都转换。</li>
+<li>arguments 使用空格分隔，不用逗号。</li>
+</ul>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br></pre></td><td class="code"><pre><code class="hljs bash"><span class="hljs-comment"># 双引号</span><br><span class="hljs-built_in">printf</span> <span class="hljs-string">&quot;%d %s\n&quot;</span> 10 <span class="hljs-string">&quot;abc&quot;</span><br>10 abc<br><span class="hljs-comment"># 单引号与双引号效果一样 </span><br><span class="hljs-built_in">printf</span> <span class="hljs-string">&#x27;%d %s\n&#x27;</span> 10 <span class="hljs-string">&quot;abc&quot;</span> <br>10 abc<br><br><span class="hljs-comment"># 没有引号也可以输出</span><br><span class="hljs-built_in">printf</span> %s abc<br>abc<br><br><span class="hljs-comment"># 但是下面的会出错：</span><br><span class="hljs-built_in">printf</span> %d %s 10 abc <br><span class="hljs-comment">#因为系统分不清楚哪个是参数，这时候最好加引号了。</span><br><br><br><span class="hljs-comment"># 格式只指定了一个参数，但多出的参数仍然会按照该格式输出，format-string 被重用</span><br>$ <span class="hljs-built_in">printf</span> %s a b c<br>abc<br>$ <span class="hljs-built_in">printf</span> <span class="hljs-string">&quot;%s\n&quot;</span> a b c<br>a<br>b<br>c<br><br><span class="hljs-comment"># 如果没有 arguments，那么 %s 用NULL代替，%d 用 0 代替</span><br>$ <span class="hljs-built_in">printf</span> <span class="hljs-string">&quot;%s and %d \n&quot;</span> <br>and 0<br><br><span class="hljs-comment"># 如果以 %d 的格式来显示字符串，那么会有警告，提示无效的数字，此时默认置为 0</span><br>$ <span class="hljs-built_in">printf</span> <span class="hljs-string">&quot;The first program always prints&#x27;%s,%d\n&#x27;&quot;</span> Hello Shell<br>-bash: <span class="hljs-built_in">printf</span>: Shell: invalid number<br>The first program always prints <span class="hljs-string">&#x27;Hello,0&#x27;</span><br>$<br></code></pre></td></tr></table></figure>
+
+<p><strong>read</strong>： 命令行从输入设备读入内容</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><code class="hljs bash"><span class="hljs-meta">#!/bin/bash</span><br><br><span class="hljs-comment"># Author : lalal</span><br><br><span class="hljs-built_in">echo</span> <span class="hljs-string">&quot;What is your name?&quot;</span><br><span class="hljs-built_in">read</span> NAME <span class="hljs-comment">#输入</span><br><span class="hljs-built_in">echo</span> <span class="hljs-string">&quot;Hello, <span class="hljs-variable">$NAME</span>&quot;</span><br></code></pre></td></tr></table></figure>
+
+<p>运行脚本：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><code class="hljs bash"><span class="hljs-built_in">chmod</span> +x test.sh<br>./test.sh<br><br>What is your name?<br>lalal<br><br>Hello, lalal<br></code></pre></td></tr></table></figure>
+
+
+<h2 id="变量定义"><a href="#变量定义" class="headerlink" title="变量定义"></a>变量定义</h2><p>Shell支持自定义变量。</p>
+<h3 id="定义变量"><a href="#定义变量" class="headerlink" title="定义变量"></a>定义变量</h3><p>定义变量时，变量名不加美元符号（$），如：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">variableName=<span class="hljs-string">&quot;value&quot;</span><br></code></pre></td></tr></table></figure>
+<p>注意，<strong>变量名和等号之间不能有空格</strong>，这可能和你熟悉的所有编程语言都不一样。有空格会出错。</p>
+<p>同时，变量名的命名须遵循如下规则：</p>
+<blockquote>
+<ul>
+<li>首个字符必须为字母（a-z，A-Z）。</li>
+</ul>
+</blockquote>
+<ul>
+<li>中间不能有空格，可以使用下划线（_）。</li>
+<li>不能使用标点符号。</li>
+<li>不能使用bash里的关键字（可用help命令查看保留关键字）。</li>
+</ul>
+<p>变量定义举例：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs bash">myUrl=<span class="hljs-string">&quot;lalal&quot;</span><br>myNum=100<br></code></pre></td></tr></table></figure>
+
+<blockquote>
+<p>注意：变量中间不能有空格，如果手误写错(例如 <code>var = test</code>)，刚好要使用<code>rm -rf $var/</code>删除这个目录，实际删除的是<code>/</code>！</p>
+</blockquote>
+<h3 id="使用变量"><a href="#使用变量" class="headerlink" title="使用变量"></a>使用变量</h3><p>使用一个定义过的变量，只要在变量名前面加美元符号（$）即可，如：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs bash">your_name=<span class="hljs-string">&quot;lalal&quot;</span><br><span class="hljs-built_in">echo</span> <span class="hljs-variable">$your_name</span><br><span class="hljs-built_in">echo</span> <span class="hljs-variable">$&#123;your_name&#125;</span><br></code></pre></td></tr></table></figure>
+<p><strong>变量名外面的花括号是可选的</strong>，加不加都行，加花括号是为了帮助解释器识别变量的边界，比如下面这种情况：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs bash"><span class="hljs-keyword">for</span> skill <span class="hljs-keyword">in</span> C PHP Python Java <br><span class="hljs-keyword">do</span><br>    <span class="hljs-built_in">echo</span> <span class="hljs-string">&quot;I am good at <span class="hljs-variable">$&#123;skill&#125;</span>Script&quot;</span><br><span class="hljs-keyword">done</span><br></code></pre></td></tr></table></figure>
+<p>如果不给skill变量加花括号，写成<code>echo &quot;I am good at $skillScript&quot;</code>，解释器就会把<code>$skillScript</code>当成一个变量（其值为空），代码执行结果就不是我们期望的样子了。</p>
+<p><strong>推荐给所有变量加上花括号，这是个好的编程习惯。</strong></p>
+<blockquote>
+<p>已定义的变量，可以被重新定义。</p>
+</blockquote>
+<p>在变量前面加<code>readonly</code> 命令可以将变量定义为只读变量，只读变量的值不能被改变。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs bash">url=<span class="hljs-string">&quot;http://www.baidu.com&quot;</span><br><span class="hljs-built_in">readonly</span> url<br>url=<span class="hljs-string">&quot;http://www.baidu.com&quot;</span><br></code></pre></td></tr></table></figure>
+
+<p>使用 <code>unset</code> 命令可以删除变量。语法：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash"><span class="hljs-built_in">unset</span> variable_name<br></code></pre></td></tr></table></figure>
+<p>变量被删除后不能再次使用；unset 命令不能删除只读变量。</p>
+<h3 id="变量类型"><a href="#变量类型" class="headerlink" title="变量类型"></a>变量类型</h3><p>运行shell时，会同时存在三种变量：<br><strong>1) 局部变量</strong><br>局部变量在脚本或命令中定义，仅在当前shell实例中有效，其他shell启动的程序不能访问局部变量。</p>
+<p><strong>2) 环境变量</strong><br>所有的程序，包括shell启动的程序，都能访问环境变量，有些程序需要环境变量来保证其正常运行。必要的时候shell脚本也可以定义环境变量。</p>
+<p><strong>3) shell变量</strong><br>shell变量是由shell程序设置的特殊变量。shell变量中有一部分是环境变量，有一部分是局部变量，这些变量保证了shell的正常运行。</p>
+<h2 id="特殊变量"><a href="#特殊变量" class="headerlink" title="特殊变量"></a>特殊变量</h2><p>前面已经讲到，<strong>变量名只能包含数字、字母和下划线</strong>，因为某些包含其他字符的变量有特殊含义，这样的变量被称为<strong>特殊变量</strong>。</p>
+<table>
+<thead>
+<tr>
+<th>变量</th>
+<th>含义</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>$0</code></td>
+<td>当前脚本的文件名</td>
+</tr>
+<tr>
+<td><code>$n</code></td>
+<td>传递给脚本或函数的参数。n 是一个数字，表示第几个参数。例如，第一个参数是<code>$1</code>，第二个参数是<code>$2</code>。</td>
+</tr>
+<tr>
+<td><code>$#</code></td>
+<td>传递给脚本或函数的参数个数。</td>
+</tr>
+<tr>
+<td><code>$*</code></td>
+<td>传递给脚本或函数的所有参数。</td>
+</tr>
+<tr>
+<td><code>$@</code></td>
+<td>传递给脚本或函数的所有参数。被双引号(“ “)包含时，与 <code>$*</code> 稍有不同</td>
+</tr>
+<tr>
+<td><code>$?</code></td>
+<td>上个命令的退出状态，或函数的返回值。</td>
+</tr>
+<tr>
+<td><code>$$</code></td>
+<td>当前Shell进程ID。对于 Shell 脚本，就是这些脚本所在的进程ID。</td>
+</tr>
+</tbody></table>
+<p>示例：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><code class="hljs bash"><span class="hljs-meta">#!/bin/bash</span><br><span class="hljs-built_in">echo</span> <span class="hljs-string">&quot;File Name: <span class="hljs-variable">$0</span>&quot;</span><br><span class="hljs-built_in">echo</span> <span class="hljs-string">&quot;First Parameter : <span class="hljs-variable">$1</span>&quot;</span><br><span class="hljs-built_in">echo</span> <span class="hljs-string">&quot;Second Parameter : <span class="hljs-variable">$2</span>&quot;</span><br><span class="hljs-built_in">echo</span> <span class="hljs-string">&quot;Quoted Values: <span class="hljs-variable">$@</span>&quot;</span><br><span class="hljs-built_in">echo</span> <span class="hljs-string">&quot;Quoted Values: $*&quot;</span><br><span class="hljs-built_in">echo</span> <span class="hljs-string">&quot;Total Number of Parameters : <span class="hljs-variable">$#</span>&quot;</span><br></code></pre></td></tr></table></figure>
+
+<p>运行结果：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><code class="hljs bash">$./test.sh Zara Ali<br>File Name : ./test.sh<br>First Parameter : Zara<br>Second Parameter : Ali<br>Quoted Values: Zara Ali<br>Quoted Values: Zara Ali<br>Total Number of Parameters : 2<br></code></pre></td></tr></table></figure>
+
+<h3 id="和-的区别"><a href="#和-的区别" class="headerlink" title="$* 和 $@ 的区别"></a><code>$*</code> 和 <code>$@</code> 的区别</h3><p><code>$*</code> 和 <code>$@</code> 都表示传递给函数或脚本的所有参数，不被双引号(“ “)包含时，都以<code>&quot;$1&quot; &quot;$2&quot; … &quot;$n&quot;</code> 的形式输出所有参数。</p>
+<p>但是当它们被双引号(“ “)包含时，”<code>$*</code>“ 会将所有的参数作为一个整体，以”<code>$1 $2 … $n</code>“的形式输出所有参数；”<code>$@</code>“ 会将各个参数分开，以<code>&quot;$1&quot; &quot;$2&quot; … &quot;$n&quot;</code> 的形式输出所有参数。</p>
+<p>示例：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><code class="hljs bash"><span class="hljs-meta">#!/bin/bash</span><br><span class="hljs-built_in">echo</span> <span class="hljs-string">&quot;\$*=&quot;</span> $*<br><span class="hljs-built_in">echo</span> <span class="hljs-string">&quot;\&quot;\$*\&quot;=&quot;</span> <span class="hljs-string">&quot;$*&quot;</span><br><span class="hljs-built_in">echo</span> <span class="hljs-string">&quot;\$@=&quot;</span> <span class="hljs-variable">$@</span><br><span class="hljs-built_in">echo</span> <span class="hljs-string">&quot;\&quot;\$@\&quot;=&quot;</span> <span class="hljs-string">&quot;<span class="hljs-variable">$@</span>&quot;</span><br><span class="hljs-built_in">echo</span> <span class="hljs-string">&quot;print each param from \$*&quot;</span><br><span class="hljs-keyword">for</span> var <span class="hljs-keyword">in</span> $*<br><span class="hljs-keyword">do</span><br>    <span class="hljs-built_in">echo</span> <span class="hljs-string">&quot;<span class="hljs-variable">$var</span>&quot;</span><br><span class="hljs-keyword">done</span><br><span class="hljs-built_in">echo</span> <span class="hljs-string">&quot;print each param from \$@&quot;</span><br><span class="hljs-keyword">for</span> var <span class="hljs-keyword">in</span> <span class="hljs-variable">$@</span><br><span class="hljs-keyword">do</span><br>    <span class="hljs-built_in">echo</span> <span class="hljs-string">&quot;<span class="hljs-variable">$var</span>&quot;</span><br><span class="hljs-keyword">done</span><br><span class="hljs-built_in">echo</span> <span class="hljs-string">&quot;print each param from \&quot;\$*\&quot;&quot;</span><br><span class="hljs-keyword">for</span> var <span class="hljs-keyword">in</span> <span class="hljs-string">&quot;$*&quot;</span><br><span class="hljs-keyword">do</span><br>    <span class="hljs-built_in">echo</span> <span class="hljs-string">&quot;<span class="hljs-variable">$var</span>&quot;</span><br><span class="hljs-keyword">done</span><br><span class="hljs-built_in">echo</span> <span class="hljs-string">&quot;print each param from \&quot;\$@\&quot;&quot;</span><br><span class="hljs-keyword">for</span> var <span class="hljs-keyword">in</span> <span class="hljs-string">&quot;<span class="hljs-variable">$@</span>&quot;</span><br><span class="hljs-keyword">do</span><br>    <span class="hljs-built_in">echo</span> <span class="hljs-string">&quot;<span class="hljs-variable">$var</span>&quot;</span><br><span class="hljs-keyword">done</span><br></code></pre></td></tr></table></figure>
+
+<p>执行 <code>./test.sh &quot;a&quot; &quot;b&quot; &quot;c&quot; &quot;d&quot;</code>，看到下面的结果：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><code class="hljs bash">$*=  a b c d<br><span class="hljs-string">&quot;$*&quot;</span>= a b c d<br><span class="hljs-variable">$@</span>=  a b c d<br><span class="hljs-string">&quot;<span class="hljs-variable">$@</span>&quot;</span>= a b c d<br><span class="hljs-built_in">print</span> each param from $*<br>a<br>b<br>c<br>d<br><span class="hljs-built_in">print</span> each param from <span class="hljs-variable">$@</span><br>a<br>b<br>c<br>d<br><span class="hljs-built_in">print</span> each param from <span class="hljs-string">&quot;$*&quot;</span><br>a b c d<br><span class="hljs-built_in">print</span> each param from <span class="hljs-string">&quot;<span class="hljs-variable">$@</span>&quot;</span><br>a<br>b<br>c<br>d<br></code></pre></td></tr></table></figure>
+
+<h3 id="退出状态"><a href="#退出状态" class="headerlink" title="退出状态"></a>退出状态</h3><p><code>$?</code> 可以获取上一个命令的退出状态。所谓退出状态，就是上一个命令执行后的返回结果。</p>
+<p>示例：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs bash"><span class="hljs-keyword">if</span> [[ $? != 0 ]];<span class="hljs-keyword">then</span><br>  <span class="hljs-built_in">echo</span> <span class="hljs-string">&quot;error&quot;</span><br>  <span class="hljs-built_in">exit</span> 1;<br><span class="hljs-keyword">fi</span><br></code></pre></td></tr></table></figure>
+
+<p>退出状态是一个数字，一般情况下，大部分命令执行成功会返回 0，失败返回 1。</p>
+<p>不过，也有一些命令返回其他值，表示不同类型的错误。</p>
+<h2 id="转义字符"><a href="#转义字符" class="headerlink" title="转义字符"></a>转义字符</h2><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><code class="hljs bash">转义字符	含义<br>\\	反斜杠<br>\a	警报，响铃<br>\b	退格（删除键）<br>\f	换页(FF)，将当前位置移到下页开头<br>\n	换行<br>\r	回车<br>\t	水平制表符（tab键） <br>\v	垂直制表符<br></code></pre></td></tr></table></figure>
+
+<p><strong>shell默认是不转义上面的字符的。需要加<code>-e</code>选项。</strong></p>
+<p>举个例子：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs bash"><span class="hljs-meta">#!/bin/bash</span><br>a=11<br><span class="hljs-built_in">echo</span> -e <span class="hljs-string">&quot;a is <span class="hljs-variable">$a</span> \n&quot;</span><br></code></pre></td></tr></table></figure>
+
+<p>运行结果：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">a is 11<br></code></pre></td></tr></table></figure>
+<p>这里 <code>-e</code> 表示对转义字符进行替换。如果不使用 <code>-e</code> 选项，将会原样输出：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">a is 11\n<br></code></pre></td></tr></table></figure>
+
+<p>可以使用 echo 命令的 <code>-E</code> 选项禁止转义，默认也是不转义的；使用 <code>-n</code> 选项可以禁止插入换行符。</p>
+<h2 id="命令替换"><a href="#命令替换" class="headerlink" title="命令替换"></a>命令替换</h2><p>命令替换是指Shell可以先执行命令，将输出结果暂时保存，在适当的地方输出。</p>
+<p>语法：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">`<span class="hljs-built_in">command</span>`<br></code></pre></td></tr></table></figure>
+<p><strong>注意是反引号，不是单引号，这个键位于 Esc 键下方。</strong></p>
+<p>下面的例子中，将命令执行结果保存在变量中：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs bash"><span class="hljs-meta">#!/bin/bash</span><br>DATE=`<span class="hljs-built_in">date</span>`<br><span class="hljs-built_in">echo</span> <span class="hljs-string">&quot;Date is <span class="hljs-variable">$DATE</span>&quot;</span><br></code></pre></td></tr></table></figure>
+
+<h2 id="变量替换"><a href="#变量替换" class="headerlink" title="变量替换"></a>变量替换</h2><p>变量替换可以根据变量的状态（是否为空、是否定义等）来改变它的值。</p>
+<p>可以使用的变量替换形式：</p>
+<table>
+<thead>
+<tr>
+<th>形式</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>$&#123;var&#125;</code></td>
+<td>变量本来的值</td>
+</tr>
+<tr>
+<td><code>$&#123;var:-word&#125;</code></td>
+<td>如果变量 <code>var</code> 为空或已被删除(unset)，那么返回 word，但不改变 <code>var</code> 的值。</td>
+</tr>
+<tr>
+<td><code>$&#123;var:=word&#125;</code></td>
+<td>如果变量 <code>var</code> 为空或已被删除(unset)，那么返回 word，并将 <code>var</code> 的值设置为 word。</td>
+</tr>
+<tr>
+<td><code>$&#123;var:?message&#125;</code></td>
+<td>如果变量 <code>var</code> 为空或已被删除(unset)，那么将消息 message 送到标准错误输出，可以用来检测变量 <code>var</code> 是否可以被正常赋值。若此替换出现在Shell脚本中，那么脚本将停止运行。</td>
+</tr>
+<tr>
+<td><code>$&#123;var:+word&#125;</code></td>
+<td>如果变量 <code>var</code> 被定义，那么返回 word，但不改变 var 的值。</td>
+</tr>
+</tbody></table>
+<h2 id="一个完整的shell示例"><a href="#一个完整的shell示例" class="headerlink" title="一个完整的shell示例"></a>一个完整的shell示例</h2><p>下面的脚本用于php安装过程中安装zip扩展。</p>
+<p><code>php_zip_ins.sh</code></p>
+<pre><code class="language-bash">#!/bin/bash
+#zip install
+
+if [ -d php-5.4.25/ext/zip ];then
+	cd php-5.4.25/ext/zip
+else
+	tar zxvf php-5.4.25.tar.gz
+	cd php-5.4.25/ext/zip
+fi
+/usr/local/php/bin/phpize
+./configure --with-php-config=/usr/local/php/bin/php-config
+make
+[ $? != 0 ] &amp;&amp; exit
+make install
+echo 
+grep &#39;no-debug-zts-20100525&#39; /usr/local/php/etc/php.ini
+if [ $? != 0 ];then
+        echo &#39;&#39; &gt;&gt; /usr/local/php/etc/php.ini
+        echo &#39;extension_dir=/usr/local/php/lib/php/extensions/no-debug-zts-20100525&#39; &gt;&gt; /usr/local/php/etc/php.ini
+fi
+grep &#39;zip.so&#39; /usr/local/php/etc/php.ini
+if [ $? != 0 ];then
+	echo &#39;extension=zip.so&#39; &gt;&gt; /usr/local/php/etc/php.ini
+fi
+echo &quot;zip install is OK&quot;
+
+
+/usr/local/apache2/bin/apachectl restart
+cd -
+rm -rf php-5.4.25
+echo &quot;all ok!&quot;
+ls /usr/local/php/lib/php/extensions/no-debug-zts-20100525/
+</code></pre>
+
+                
+              </div>
+            
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+  
+    <div class="post-meta">
+      <i class="iconfont icon-tags"></i>
+      
+        <a href="/tags/shell-linux/" class="print-no-link">#shell  linux</a>
+      
+    </div>
+  
+</div>
+
+
+              
+  
+
+  <div class="license-box my-3">
+    <div class="license-title">
+      <div>0x0  shell编程</div>
+      <div>https://duanxian0x0.github.io/2025/01/18/0x0-shell编程/</div>
+    </div>
+    <div class="license-meta">
+      
+        <div class="license-meta-item">
+          <div>作者</div>
+          <div>DuanXian</div>
+        </div>
+      
+      
+        <div class="license-meta-item license-meta-date">
+          <div>发布于</div>
+          <div>2025年1月18日</div>
+        </div>
+      
+      
+      
+        <div class="license-meta-item">
+          <div>许可协议</div>
+          <div>
+            
+              
+              
+                <a class="print-no-link" target="_blank" href="https://creativecommons.org/licenses/by/4.0/">
+                  <span class="hint--top hint--rounded" aria-label="BY - 署名">
+                    <i class="iconfont icon-cc-by"></i>
+                  </span>
+                </a>
+              
+            
+          </div>
+        </div>
+      
+    </div>
+    <div class="license-icon iconfont"></div>
+  </div>
+
+
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2025/01/18/hello-world/" title="hello world">
+                        <span class="hidden-mobile">hello world</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="margin-left: -1rem">
+    <div id="toc">
+  <p class="toc-header">
+    <i class="iconfont icon-list"></i>
+    <span>目录</span>
+  </p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+  
+    <div class="footer-content">
+       <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+    </div>
+  
+  
+  
+</div>
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://lib.baomitu.com/jquery/3.6.4/jquery.min.js" ></script>
+<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+
+  <script  src="https://lib.baomitu.com/typed.js/2.0.12/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var subtitle = document.getElementById('subtitle');
+      if (!subtitle || !typing) {
+        return;
+      }
+      var text = subtitle.getAttribute('data-typed-text');
+      
+        typing(text);
+      
+    })(window, document);
+  </script>
+
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/tocbot/4.20.1/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    window.tocbot.init(Object.assign({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      scrollSmooth    : true,
+      includeTitleTags: true,
+      headingsOffset  : -boardTop,
+    }, CONFIG.toc));
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('tocbot' in window) {
+        tocbot.refresh();
+        var toc = jQuery('#toc');
+        if (toc.length === 0 || !tocbot) {
+          return;
+        }
+        if (toc.find('.toc-list-item').length > 0) {
+          toc.css('visibility', 'visible');
+        }
+      }
+    });
+  });
+</script>
+
+
+  <script src=https://lib.baomitu.com/clipboard.js/2.0.11/clipboard.min.js></script>
+
+  <script>Fluid.plugins.codeWidget();</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/anchor-js/5.0.0/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('anchors' in window) {
+        anchors.removeAll();
+        var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+        var res = [];
+        for (var item of el) {
+          res.push('.markdown-body > ' + item.trim());
+        }
+        if (CONFIG.anchorjs.placement === 'left') {
+          anchors.options.class = 'anchorjs-link-left';
+        }
+        anchors.add(res.join(', '));
+      }
+    });
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">博客在允许 JavaScript 运行的环境下浏览效果更佳</div>
+  </noscript>
+</body>
+</html>
